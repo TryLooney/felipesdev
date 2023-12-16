@@ -50,7 +50,11 @@ export default async function Home() {
                 message: (
                   <span className="text-foreground-500">
                     Você pode entrar em contato pelos{" "}
-                    <Link isExternal href="/links">
+                    <Link
+                      className="font-medium text-purple-500 underline"
+                      isExternal
+                      href="/links"
+                    >
                       Links
                     </Link>{" "}
                     disponíveis.
@@ -68,7 +72,7 @@ export default async function Home() {
               },
               {
                 message: (
-                  <span className="flex space-x-2 text-foreground-500">
+                  <span className="flex flex-col space-x-2 text-foreground-500 md:flex-row">
                     <span>Atualmente estou trabalhando em</span>
                     <Link
                       className="space-x-2 text-purple-500"
@@ -91,7 +95,11 @@ export default async function Home() {
                 message: (
                   <span className="text-foreground-500">
                     Você pode se interar em tecnologia pelo meu{" "}
-                    <Link isExternal href="/links">
+                    <Link
+                      className="font-medium text-purple-500 underline"
+                      isExternal
+                      href="/blog"
+                    >
                       Blog
                     </Link>
                     .

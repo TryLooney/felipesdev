@@ -9,15 +9,45 @@ datasource db {
 }
 
 model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id          String          @id
+    name        String
+    category    PostCategory
+    subCategory PostSubCategory
+    createdAt   DateTime        @default(now())
+    updatedAt   DateTime        @updatedAt
+    featured    Boolean         @default(false)
 
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
+    published     Boolean  @default(false)
+    publishedAt   DateTime
+    publishedBy   User?    @relation("PublishedByRelation", fields: [publishedById], references: [id], onDelete: SetNull)
+    publishedById String?
+
+    content String @db.Text
+
+    createdBy   User?   @relation("CreatedByRelation", fields: [createdById], references: [id], onDelete: SetNull)
+    createdById String?
 
     @@index([name])
+}
+
+enum PostCategory {
+    GENERAL
+    PROGRAMMING
+    BUSINESS
+}
+
+enum PostSubCategory {
+    TUTORIAL
+    NEWS
+    REVIEW
+    OTHER
+}
+
+enum Role {
+    ADMIN
+    MODERATOR
+    CONTRIBUTOR
+    USER
 }
 
 model Account {
@@ -48,14 +78,16 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    posts         Post[]
+    id             String    @id @default(cuid())
+    name           String?
+    email          String?   @unique
+    emailVerified  DateTime?
+    image          String?
+    accounts       Account[]
+    sessions       Session[]
+    postsCreated   Post[]    @relation("CreatedByRelation")
+    postsPublished Post[]    @relation("PublishedByRelation")
+    role           Role      @default(USER)
 }
 
 model VerificationToken {

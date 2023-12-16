@@ -2,7 +2,8 @@
 
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { AlertCircle, CheckCircle, Info, XCircle } from "lucide-react";
+import { getIcon } from "./getIcon";
+import { parseMessage } from "./parseMessage";
 
 export type TerminalType = "info" | "error" | "warning" | "success";
 
@@ -24,75 +25,13 @@ interface TerminalProps {
   }[];
 }
 
-function parseMessage(message: string | JSX.Element) {
-  if (typeof message !== "string") {
-    return {
-      segments: [
-        {
-          text: [{ char: message, styles: ["text-foreground-500"] }],
-          styles: ["text-foreground-500"],
-        },
-      ],
-      messageLength: 1,
-    };
-  }
-
-  const colorCodes = {
-    "{red}": "text-red-500",
-    "{blue}": "text-blue-500",
-    "{green}": "text-green-500",
-    "{yellow}": "text-yellow-500",
-    "{purple}": "text-purple-500",
-    "{cyan}": "text-cyan-500",
-    "{white}": "text-white",
-    "{reset}": "text-default-500",
-    "{bold}": "font-bold",
-    "{semibold}": "font-semibold",
-    "{medium}": "font-medium",
-    "{regular}": "font-normal",
-    "{italic}": "italic",
-    "{underline}": "underline",
-  };
-
-  type Segment = {
-    text: { char: string | JSX.Element; styles: string[] }[];
-    styles: string[];
-  };
-
-  const segments: Segment[] = [{ text: [], styles: ["text-foreground-500"] }];
-  const currentStyles = ["text-foreground-500"];
-  let messageLength = 0;
-
-  for (let i = 0; i < message.length; i++) {
-    if (message[i] === "{") {
-      const code = message.slice(i, message.indexOf("}", i) + 1);
-      if (code in colorCodes) {
-        currentStyles.push(colorCodes[code as keyof typeof colorCodes]);
-        i += code.length - 1;
-        continue;
-      }
-    }
-    if (message[i] === "\n") {
-      segments[0]?.text.push({ char: <br />, styles: [] });
-      continue;
-    }
-    if (i < message.length && message[i] !== undefined) {
-      const char: string | JSX.Element = message[i] ?? "";
-      segments[0]?.text.push({ char, styles: [...currentStyles] });
-      messageLength++;
-    }
-  }
-
-  return { segments, messageLength };
-}
-
 export function Terminal({ title, classNames, messages }: TerminalProps) {
   let totalDelay = 0;
 
   return (
     <motion.div
       className={cn(
-        "flex min-w-[32rem] flex-col rounded-lg bg-background-100",
+        "flex flex-col rounded-lg bg-background-100",
         classNames?.wrapper,
       )}
     >
@@ -108,7 +47,7 @@ export function Terminal({ title, classNames, messages }: TerminalProps) {
       </motion.div>
       <motion.ul
         className={cn(
-          "flex flex-col items-start justify-start space-y-4 overflow-auto p-8 [&::-webkit-scrollbar]:hidden",
+          "flex flex-col items-start justify-start space-y-4 overflow-auto p-4 md:p-8 [&::-webkit-scrollbar]:hidden",
           classNames?.terminal,
         )}
       >
@@ -123,11 +62,11 @@ export function Terminal({ title, classNames, messages }: TerminalProps) {
               initial={{ display: "none", y: -10 }}
               animate={{ display: "flex", y: 0 }}
               transition={{ delay: totalDelay }}
-              className="flex items-center justify-start space-x-1"
+              className="flex flex-col items-center justify-center space-x-1 md:flex-row"
             >
               <span>{!msg.input && msg.type && getIcon(msg.type)}</span>
               {msg.input && (
-                <span>
+                <span className="">
                   <span className="text-yellow-500">
                     λ {msg.user ?? "trylooney"}{" "}
                   </span>
@@ -158,17 +97,4 @@ export function Terminal({ title, classNames, messages }: TerminalProps) {
       </motion.ul>
     </motion.div>
   );
-}
-
-function getIcon(type: TerminalType) {
-  switch (type) {
-    case "info":
-      return <Info className="h-5 w-5 text-blue-500" />;
-    case "error":
-      return <XCircle className="h-5 w-5 text-red-500" />;
-    case "warning":
-      return <AlertCircle className="h-5 w-5 text-yellow-500" />;
-    case "success":
-      return <CheckCircle className="h-5 w-5 text-green-500" />;
-  }
 }
