@@ -1,4 +1,6 @@
+import svgToDataUri from "mini-svg-data-uri";
 import type { Config } from "tailwindcss";
+import { default as flattenColorPalette } from "tailwindcss/lib/util/flattenColorPalette";
 
 const config = {
   darkMode: ["class"],
@@ -21,6 +23,7 @@ const config = {
       fontFamily: {
         sans: ["var(--font-geist-sans)"],
         mono: ["var(--font-geist-mono)"],
+        pacifico: ["var(--font-pacifico)"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -71,14 +74,90 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        text: {
+          "0%, 100%": {
+            "background-size": "200% 200%",
+            "background-position": "left center",
+          },
+          "50%": {
+            "background-size": "200% 200%",
+            "background-position": "right center",
+          },
+        },
       },
       animation: {
+        text: "text 5s ease infinite",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    addVariablesForColors,
+    function ({
+      matchUtilities,
+      theme,
+    }: {
+      matchUtilities: ({}, {}) => unknown;
+      theme: (key: string) => unknown;
+    }) {
+      matchUtilities(
+        {
+          "bg-grid": (value: unknown) => ({
+            backgroundImage: `url("${svgToDataUri(
+              // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+              `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="${value}"><path d="M0 .5H31.5V32"/></svg>`,
+            )}")`,
+          }),
+          "bg-grid-large": (value: unknown) => ({
+            backgroundImage: `url("${svgToDataUri(
+              // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+              `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="48" height="48" fill="none" stroke="${value}"><path d="M0 .5H31.5V32"/></svg>`,
+            )}")`,
+          }),
+          "bg-grid-small": (value: unknown) => ({
+            backgroundImage: `url("${svgToDataUri(
+              // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+              `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="8" height="8" fill="none" stroke="${value}"><path d="M0 .5H31.5V32"/></svg>`,
+            )}")`,
+          }),
+          "bg-dot": (value: unknown) => ({
+            backgroundImage: `url("${svgToDataUri(
+              // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+              `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="16" height="16" fill="none"><circle fill="${value}" id="pattern-circle" cx="10" cy="10" r="1.6257413380501518"></circle></svg>`,
+            )}")`,
+          }),
+        },
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+        {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+          values: flattenColorPalette(theme("backgroundColor")),
+          type: "color",
+        },
+      );
+    },
+  ],
 } satisfies Config;
+
+function addVariablesForColors({
+  addBase,
+  theme,
+}: {
+  addBase: ({}) => unknown;
+  theme: (key: string) => unknown;
+}) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, prefer-const
+  let allColors = flattenColorPalette(theme("colors"));
+  // eslint-disable-next-line prefer-const
+  let newVars = Object.fromEntries(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    Object.entries(allColors).map(([key, val]) => [`--${key}`, val]),
+  );
+
+  addBase({
+    ":root": newVars,
+  });
+}
 
 export default config;
