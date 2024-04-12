@@ -124,6 +124,7 @@ function PageLink({
     <Link
       id={`${page.toString().toLowerCase()}-url`}
       href={"https://" + url}
+      target="_blank"
       tabIndex={actualPage === page ? 0 : -1}
       className={`absolute truncate text-xs text-muted-foreground transition ${actualPage === page ? "translate-y-0" : "translate-y-4"}`}
     >
