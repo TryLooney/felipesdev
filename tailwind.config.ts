@@ -84,60 +84,6 @@ const config = {
             "background-position": "right center",
           },
         },
-
-        "programmer-effect-1": {
-          "0%, 100%": {
-            opacity: "0",
-            transform: "translateY(0%) rotate(0deg)",
-          },
-          "25%": {
-            opacity: "1",
-          },
-          "50%": {
-            opacity: "0",
-            transform: "translateY(200%) rotate(180deg)",
-          },
-        },
-        "programmer-effect-2": {
-          "0%, 100%": {
-            opacity: "0",
-            transform: "translateY(0%) rotate(0deg) translateX(0%)",
-          },
-          "25%": {
-            opacity: "1",
-          },
-          "50%": {
-            opacity: "0",
-            transform: "translateY(200%) rotate(12deg) translateX(50%)",
-          },
-        },
-        "programmer-effect-3": {
-          "0%, 100%": {
-            opacity: "0",
-            transform: "translateY(0%) rotate(0deg) translateX(0%) scale(1)",
-          },
-          "25%": {
-            opacity: "1",
-          },
-          "50%": {
-            opacity: "0",
-            transform:
-              "translateY(200%) rotate(95deg) translateX(75%) scale(1.5)",
-          },
-        },
-        "programmer-effect-4": {
-          "0%, 100%": {
-            opacity: "0",
-            transform: "translateY(0%) rotate(0deg) translateX(0%)",
-          },
-          "25%": {
-            opacity: "1",
-          },
-          "50%": {
-            opacity: "0",
-            transform: "translateY(200%) rotate(-95deg) translateX(-55%)",
-          },
-        },
       },
       animation: {
         text: "text 5s ease infinite",
