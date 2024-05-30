@@ -17,7 +17,7 @@ export const Pages = [
     id: PagesId.SumareRP,
     label: "Sumaré RP",
     icon: <Yorpex className="size-3" />,
-    url: "sumare.yorpex.app",
+    url: "sumarerp.yorpex.app",
   },
   {
     id: PagesId.Gim,

@@ -6,7 +6,7 @@ export function SumareRP() {
     <div className="grid-rows grid h-full w-full gap-x-4 p-8 lg:grid-cols-2">
       <div className="flex flex-col space-y-2">
         <Link
-          href={"https://sumare.yorpex.app"}
+          href={"https://sumarerp.yorpex.app"}
           className="flex items-center space-x-2"
           target="_blank"
         >

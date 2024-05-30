@@ -76,7 +76,7 @@ export function UserCard({
           <div className="relative h-full w-full flex-col items-center justify-center overflow-hidden">
             <div>
               <Avatar className="absolute left-5 top-3 size-10 transition-all duration-300 group-data-[state=open]:top-6">
-                <AvatarImage src={user.image} />
+                <AvatarImage src={user.image} alt={user.name} />
                 <AvatarFallback>
                   {user.name.slice(0, 2).toUpperCase()}
                 </AvatarFallback>

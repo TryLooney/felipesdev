@@ -1,9 +1,8 @@
 import { Browser } from "@/components/browser";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
-import { buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Highlight } from "@/components/ui/highlight";
 import { UserCard } from "@/components/ui/user-card";
-import { cn } from "@/lib/utils";
 import { ExternalLink, Star, StarHalf } from "lucide-react";
 import Link from "next/link";
 
@@ -22,25 +21,19 @@ export default async function Home() {
                 .dev
               </h1>
             </Link>
-            <Link
-              href={"/blog"}
-              className={cn(
-                buttonVariants({ className: "h-8 px-3 sm:h-10 sm:px-4" }),
-                "gap-x-2",
-              )}
-            >
+            <Button disabled className="h-8 gap-x-2 px-3 sm:h-10 sm:px-4">
               Blog <ExternalLink className="size-4" />
-            </Link>
+            </Button>
           </header>
           <section className="mt-24 flex w-full flex-col items-center justify-center">
-            <div className="flex flex-col items-center justify-center space-y-2">
-              <h1 className="flex gap-x-2 text-center text-4xl font-extrabold tracking-tight lg:text-5xl">
+            <div className="flex flex-col items-center justify-center space-y-3 sm:space-y-2">
+              <h1 className="flex gap-x-2 text-center text-3xl font-extrabold tracking-tight lg:text-5xl">
                 Sou{" "}
                 <Highlight className="item-center flex justify-center">
                   programador
                 </Highlight>
               </h1>
-              <h2 className="text-center text-xl leading-7">
+              <h2 className="text-center text-lg leading-7 sm:text-xl">
                 E eu posso fazer sua solução ir além do que você imagina
               </h2>
             </div>
@@ -52,14 +45,14 @@ export default async function Home() {
                       <UserCard
                         user={{
                           createdAt: new Date(2024, 3, 6, 0, 0, 0, 0),
-                          id: "amigoarroz",
-                          image: "https://github.com/amigoarroz.png",
+                          id: "arthur-cma",
+                          image: "https://github.com/arthur-cma.png",
                           name: "Arthur C.",
                         }}
                         project={{
                           id: "sumarerp",
                           name: "Sumaré RP",
-                          url: "https://sumare.yorpex.app",
+                          url: "https://sumarerp.yorpex.app",
                         }}
                       />
                       <div className="absolute right-14 top-16 flex space-x-1 *:size-4 *:fill-yellow-500 *:text-yellow-500 sm:right-0 sm:top-6">
